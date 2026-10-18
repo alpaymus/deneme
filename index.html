@@ -1,12 +1,11 @@
-<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KPYS - Kadro Yönetim Paneli</title>
-    <!-- Tailwind CSS Yapısı -->
+    <title>KPYS - Canlı Prototip Demosu</title>
+    <!-- Tailwind CSS -->
     <script src="https://tailwindcss.com"></script>
-    <!-- Modern Yazı Tipi -->
+    <!-- Inter Font -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,24 +15,21 @@
 </head>
 <body class="bg-slate-50 text-slate-600 antialiased min-h-screen flex flex-col md:flex-row">
 
+    <!-- BİLDİRİM (TOAST) PENCERESİ (Dinamik Uyarılar İçin) -->
+    <div id="toast" class="fixed top-5 right-5 z-50 transform translate-x-full transition-transform duration-300 bg-emerald-600 text-white px-4 py-3 rounded-lg shadow-xl font-semibold text-sm flex items-center gap-2">
+        <span>✅</span> <span id="toast-message">İşlem Başarılı!</span>
+    </div>
+
     <!-- 1. SOL PANEL (SIDEBAR) -->
     <aside class="w-full md:w-64 bg-blue-900 text-white flex flex-col md:fixed md:inset-y-0 md:left-0 z-50">
         <div class="h-16 flex items-center justify-between px-6 bg-blue-950 border-b border-blue-800">
             <span class="text-lg font-bold tracking-wider text-white">📊 KPYS PANEL</span>
         </div>
-        <nav class="flex-1 px-4 py-6 space-y-6">
-            <div class="space-y-1">
-                <span class="px-4 text-[10px] font-bold text-blue-300 uppercase tracking-widest block mb-2">Modüller</span>
-                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-semibold rounded-lg bg-blue-800 text-white">
-                    📂 Kadro Yönetimi
-                </a>
-                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-blue-800 transition-colors">
-                    👤 Personel Atama
-                </a>
-                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-blue-800 transition-colors">
-                    🔍 Sorgu & Raporlar
-                </a>
-            </div>
+        <nav class="flex-1 px-4 py-6 space-y-2">
+            <span class="px-4 text-[10px] font-bold text-blue-300 uppercase tracking-widest block mb-2">Modüller</span>
+            <a href="#" class="flex items-center px-4 py-2.5 text-sm font-semibold rounded-lg bg-blue-800 text-white">📂 Kadro Yönetimi</a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-blue-800 transition-colors">👤 Personel Atama</a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-blue-100 hover:bg-blue-800 transition-colors">🔍 Sorgu & Raporlar</a>
         </nav>
         <div class="p-4 bg-blue-950 border-t border-blue-800 flex items-center">
             <div class="w-9 h-9 rounded-full bg-teal-600 flex items-center justify-center font-bold text-white mr-3">AY</div>
@@ -46,19 +42,14 @@
 
     <!-- 2. SAĞ ANA İÇERİK ALANI -->
     <div class="flex-1 md:pl-64 flex flex-col min-w-0">
-        
-        <!-- Üst Bilgi Barı -->
         <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-40 shadow-sm">
             <div class="flex items-center gap-2">
                 <span class="text-xl">🏢</span>
-                <h1 class="text-lg font-bold text-slate-800">Kadro ve Personel Operasyonları Merkezi</h1>
+                <h1 class="text-lg font-bold text-slate-800">Kadro ve Personel Operasyonları Merkezi (Canal Demo)</h1>
             </div>
-            <div class="text-xs font-semibold bg-slate-100 px-3 py-1.5 rounded-lg text-slate-500">
-                Sistem Aktif • 2026
-            </div>
+            <div class="text-xs font-semibold bg-slate-100 px-3 py-1.5 rounded-lg text-slate-500">Sistem Aktif • 2026</div>
         </header>
 
-        <!-- Formlar ve Tablolar -->
         <main class="p-6 space-y-6 max-w-7xl w-full mx-auto">
 
             <!-- YENİ KADRO TANIMLAMA FORMU -->
@@ -68,35 +59,33 @@
                     <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Yeni Kadro Tanımla</h2>
                 </div>
                 <div class="p-6">
-                    <form class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <form id="kadroForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Departman</label>
-                            <select class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 focus:outline-none">
-                                <option>Seçiniz...</option>
-                                <option>Yazılım Geliştirme</option>
-                                <option>İnsan Kaynakları</option>
+                            <select id="formDept" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 focus:outline-none" required>
+                                <option value="">Seçiniz...</option>
+                                <option value="Yazılım Geliştirme">Yazılım Geliştirme</option>
+                                <option value="İnsan Kaynakları">İnsan Kaynakları</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Unvan</label>
-                            <select class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 focus:outline-none">
-                                <option>Seçiniz...</option>
-                                <option>Kıdemli Uzman</option>
-                                <option>Uzman Geliştirici</option>
+                            <select id="formUnvan" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 focus:outline-none" required>
+                                <option value="">Seçiniz...</option>
+                                <option value="Kıdemli Uzman">Kıdemli Uzman</option>
+                                <option value="Uzman Geliştirici">Uzman Geliştirici</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Kadro Derecesi</label>
-                            <input type="text" placeholder="Örn: A-1" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 focus:outline-none">
+                            <input type="text" id="formDerece" placeholder="Örn: A-1" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 focus:outline-none" required>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Bütçe Kodu</label>
-                            <input type="text" placeholder="B-2026-XYZ" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 focus:outline-none">
+                            <input type="text" id="formButce" placeholder="B-2026-XYZ" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 focus:outline-none" required>
                         </div>
                         <div class="md:col-span-4 flex justify-end pt-2">
-                            <button type="button" class="bg-blue-900 hover:bg-blue-950 text-white text-xs font-bold py-2.5 px-6 rounded-lg transition-colors shadow-sm">
-                                Kadroyu Oluştur
-                            </button>
+                            <button type="submit" class="bg-blue-900 hover:bg-blue-950 text-white text-xs font-bold py-2.5 px-6 rounded-lg transition-colors shadow-sm">Kadroyu Oluştur</button>
                         </div>
                     </form>
                 </div>
@@ -109,18 +98,9 @@
                         <span class="text-lg">📋</span>
                         <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Mevcut Kadro Slotları</h2>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <select class="text-xs bg-white border border-slate-300 rounded-md px-2 py-1 text-slate-600 focus:outline-none">
-                            <option>Tüm Departmanlar</option>
-                        </select>
-                        <select class="text-xs bg-white border border-slate-300 rounded-md px-2 py-1 text-slate-600 focus:outline-none">
-                            <option>Sadece Boş Kadrolar</option>
-                        </select>
-                        <button class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold py-1 px-3 rounded-md transition-colors">Filtrele</button>
-                    </div>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left border-collapse" id="kadroTablosu">
                         <thead>
                             <tr class="border-b border-slate-200 bg-slate-50/50 text-slate-400 text-[10px] font-bold uppercase tracking-wider">
                                 <th class="px-6 py-3">Kadro ID</th>
@@ -131,25 +111,24 @@
                                 <th class="px-6 py-3 text-right">İşlem</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100 text-sm font-medium text-slate-700">
-                            <!-- Satır 1 -->
-                            <tr class="hover:bg-slate-50/50 transition-colors">
+                        <tbody class="divide-y divide-slate-100 text-sm font-medium text-slate-700" id="tabloGövdesi">
+                            <tr class="hover:bg-slate-50/50 transition-colors" id="row-101">
                                 <td class="px-6 py-4 font-mono text-xs text-slate-500">KD-101</td>
                                 <td class="px-6 py-4">Yazılım Geliştirme</td>
                                 <td class="px-6 py-4">Kıdemli Uzman</td>
-                                <td class="px-6 py-4">
-                                    <span class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-red-100 text-red-800">DOLU</span>
-                                </td>
-                                <td class="px-6 py-4 text-slate-900 font-semibold">Caner Yıldız</td>
-                                <td class="px-6 py-4 text-right">
-                                    <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-1 px-3 rounded transition-colors">İncele</button>
-                                </td>
+                                <td class="px-6 py-4"><span class="status-badge px-2 py-0.5 text-[11px] font-bold rounded-full bg-red-100 text-red-800">DOLU</span></td>
+                                <td class="px-6 py-4 text-slate-900 font-semibold p-name">Caner Yıldız</td>
+                                <td class="px-6 py-4 text-right"><button onclick="showInfo('Caner Yıldız - KD-101 Kıdemli Uzman kadrosunda kayıtlıdır.')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-1 px-3 rounded transition-colors">İncele</button></td>
                             </tr>
-                            <!-- Satır 2 -->
-                            <tr class="hover:bg-slate-50/50 transition-colors">
+                            <tr class="hover:bg-slate-50/50 transition-colors" id="row-102">
                                 <td class="px-6 py-4 font-mono text-xs text-slate-500">KD-102</td>
                                 <td class="px-6 py-4">Yazılım Geliştirme</td>
                                 <td class="px-6 py-4">Uzman Geliştirici</td>
-                                <td class="px-6 py-4">
-                                    <span class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-emerald-100 text-emerald-800">BOŞ</span>
-                                </td>
+                                <td class="px-6 py-4"><span class="status-badge px-2 py-0.5 text-[11px] font-bold rounded-full bg-emerald-100 text-emerald-800">BOŞ</span></td>
+                                <td class="px-6 py-4 text-slate-400 italic p-name">--- Personel Yok ---</td>
+                                <td class="px-6 py-4 text-right"><button onclick="openAtamaModal('KD-102', 'Yazılım Geliştirme', 'Uzman Geliştirici')" class="action-btn bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold py-1 px-3 rounded transition-colors shadow-sm">👤 Personel Ata</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
